@@ -30,17 +30,13 @@ void change(int value, char note[]){
 		value -= 1;
 	}
 
-	//printf("%c.", note[1]);
-	//printf("%c\n", note[1]);
 	for(int j = 0; j < 12; j++){
 
-		if(note[0] == scale[j][0] && note[1] == scale[j][1]){
-			//printf("Here");			
+		if(note[0] == scale[j][0] && note[1] == scale[j][1]){	
 			if(j + value < 12 && j + value >= 0){
 				temp2[0] = scale[j + value][0];
 				temp2[1] = scale[j + value][1];
 			} else if(j + value < 0){
-				printf("%d\n", (j + value));
 				int underflow = (j + value);
 				temp2[0] = scale[12 + underflow][0];
 				temp2[1] = scale[12 + underflow][0];
@@ -62,13 +58,13 @@ int main(){
 	for(int i = 0; i < 20; i++){
 		str[i] = ' ';
 	}
+	for(int i = 0; i < 20; i++){
+		newstr[i] = ' ';
+	}
 	fgets(str, 20, stdin);
 	strtok(str, "\n");
+	scanf("%d", value);
 	while(str[0] != '*'){
-		scanf("%d", value);
-		for(int i = 0; i < 20; i++){
-			newstr[i] = ' ';
-		}
 		for(int i = 0; i < 20; i++){
 			if(str[i] == '\0'){
 				str[i] = ' ';
@@ -78,13 +74,9 @@ int main(){
 		whatever[0] = ' ';
 		whatever[1] = ' ';
 
-		//printf("+%c+", str[1]);
-		//str[1] = ' ';
-		//str[2] = ' ';
 		for(int i = 0; i < 19; i++){
-			printf("%c.", str[i]);
+			//printf("%c.", str[i]);
 			if(str[i] != ' ' && str[i + 1] != ' '){
-				//printf("here");
 				whatever[0] = str[i];
 				whatever[1] = str[i + 1];
 
@@ -107,14 +99,23 @@ int main(){
 					newstr[i + 2] = ' ';
 			}
 		}
-
+		if(str[0] != '\n'){
+			for(int i = 0; i < 19; i++){
+				printf("%c", newstr[i]);
+				if(newstr[i] == '#' && newstr[i + 1] != ' '){
+					printf(" ");
+				}
+			}
+		}	
 		for(int i = 0; i < 20; i++){
-			printf("%c", newstr[i]);
-			if(newstr[i] != '#')
-				printf(" ");
+			str[i] = ' ';
 		}
-		printf("\n");
+		for(int i = 0; i < 20; i++){
+			newstr[i] = ' ';
+		}
 		fgets(str, 20, stdin);
+		strtok(str, "\n");
+		scanf("%d", value);
 	}
 	return 0;
 }
