@@ -17,17 +17,25 @@ void change(int value, char note[]){
 		"G ",
 		"G#"
 	};
+	char outliers[2][2] = {"B#", "E#"};
+
+	if(note[1] == '#' && (note[0] == 'B' || note[0] == 'E')){
+		note[1] = ' ';
+		value += 1;
+	}
 
 	char temp2[2];
 	if(note[1] == 'b'){
 		note[1] = ' ';
-		value = value - 1;
+		value -= 1;
 	}
 
+	//printf("%c.", note[1]);
+	//printf("%c\n", note[1]);
 	for(int j = 0; j < 12; j++){
-		//printf("%c ", note[0]);
-		//printf("%c\n", note[1]);
-		if(note[0] == scale[j][0] && note[1] == scale[j][1]){			
+
+		if(note[0] == scale[j][0] && note[1] == scale[j][1]){
+			//printf("Here");			
 			if(j + value < 12 && j + value >= 0){
 				temp2[0] = scale[j + value][0];
 				temp2[1] = scale[j + value][1];
@@ -48,8 +56,65 @@ void change(int value, char note[]){
 }
 
 int main(){
-	char note[2] = {"A "};
-	change(-2, note);
-	printf("%c\n", note[0]);
+	char str[20];
+	int value[1];
+	char newstr[20];
+	for(int i = 0; i < 20; i++){
+		str[i] = ' ';
+	}
+	fgets(str, 20, stdin);
+	strtok(str, "\n");
+	while(str[0] != '*'){
+		scanf("%d", value);
+		for(int i = 0; i < 20; i++){
+			newstr[i] = ' ';
+		}
+		for(int i = 0; i < 20; i++){
+			if(str[i] == '\0'){
+				str[i] = ' ';
+			}
+		}
+		char whatever[2];
+		whatever[0] = ' ';
+		whatever[1] = ' ';
+
+		//printf("+%c+", str[1]);
+		//str[1] = ' ';
+		//str[2] = ' ';
+		for(int i = 0; i < 19; i++){
+			printf("%c.", str[i]);
+			if(str[i] != ' ' && str[i + 1] != ' '){
+				//printf("here");
+				whatever[0] = str[i];
+				whatever[1] = str[i + 1];
+
+				change(value[0], whatever);
+
+				newstr[i] = whatever[0];
+				newstr[i + 1] = whatever[1];
+				if(whatever[1] != ' ')
+					newstr[i + 2] = ' ';
+				i++;
+			} else if(str[i] != ' ' && str[i + 1] == ' '){
+				//printf("%d", i);
+				whatever[0] = str[i];
+				whatever[1] = ' ';
+
+				change(value[0], whatever);
+				newstr[i] = whatever[0];
+				newstr[i + 1] = whatever[1];
+				if(whatever[1] != ' ')
+					newstr[i + 2] = ' ';
+			}
+		}
+
+		for(int i = 0; i < 20; i++){
+			printf("%c", newstr[i]);
+			if(newstr[i] != '#')
+				printf(" ");
+		}
+		printf("\n");
+		fgets(str, 20, stdin);
+	}
 	return 0;
 }
